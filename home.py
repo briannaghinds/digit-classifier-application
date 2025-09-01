@@ -17,7 +17,9 @@ class WebsiteBuild():
         st.set_page_config("MNIST Classifier", layout="centered")
 
 
-    def predict_digit(self, img_tensor):
+    def predict_digit(self, img_array):
+        img_tensor = self.image_to_tensor(img_array)
+
         # call the PyTorch model and run the predict method
         prediction = 19
         confidence = 0
@@ -28,16 +30,18 @@ class WebsiteBuild():
     
 
     def image_to_tensor(self, img):
-        # pull the image, turn to greyscale, and resize the image
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-        img = cv2.resize(img, (28,28))
+        #resize image to MNIST format
+        img = cv2.resize(img, (28,28), interpolation=cv2.INTER_AREA)
+        img = 255 - img  # invert the colors
 
         # turn to a tensor
         data = torch.from_numpy(img).unsqueeze(0).float() / 255.0
         # print(data.min().item(), data.max().item())
 
         data = torch.reshape(data, (1, 28, 28))
-        print(data)
+
+        print("TENSOR SHAPE:" , data.shape)
+        
         return data
 
 
@@ -64,12 +68,11 @@ class WebsiteBuild():
 
         # convert the canvas into an image for the model
         if predict_btn and canvas_result.image_data is not None:
-            # img  = cv2.cvtColor(canvas_result, cv2.COLOR_RGB2GRAY)
-            img = canvas_result.image_data.astype("uint8")
-            # grey_img = Image.fromarray(img)
+            img = canvas_result.image_data.astype(np.uint8)
             grey_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-            st.text(grey_img)
-            # print(grey_img)
+
+            st.text(canvas_result.image_data)
+
 
             st.image(grey_img, caption="Processed Input", width=100)
 
