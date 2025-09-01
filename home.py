@@ -64,11 +64,16 @@ class WebsiteBuild():
 
         # convert the canvas into an image for the model
         if predict_btn and canvas_result.image_data is not None:
-            img = canvas_result.image_data
+            # img  = cv2.cvtColor(canvas_result, cv2.COLOR_RGB2GRAY)
+            img = canvas_result.image_data.astype("uint8")
+            # grey_img = Image.fromarray(img)
+            grey_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+            st.text(grey_img)
+            # print(grey_img)
 
-            st.image(img, caption="Processed Input", width=100)
+            st.image(grey_img, caption="Processed Input", width=100)
 
-            prediction, confidence = self.predict_digit(img)
+            prediction, confidence = self.predict_digit(grey_img)
             st.write(f"PLACEHOLDER {prediction} AND {confidence}%")
 
             # add the img, prediction, confidence into a dataset
