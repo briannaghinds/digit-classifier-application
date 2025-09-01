@@ -23,7 +23,7 @@ class WebsiteBuild():
         # call the PyTorch model and run the predict method
         prediction = 19
         confidence = 0
-        print(img_tensor)
+        # print(img_tensor)
         
         
         return prediction, confidence
@@ -32,7 +32,7 @@ class WebsiteBuild():
     def image_to_tensor(self, img):
         #resize image to MNIST format
         img = cv2.resize(img, (28,28), interpolation=cv2.INTER_AREA)
-        img = 255 - img  # invert the colors
+        # img = 255 - img  # invert the colors
 
         # turn to a tensor
         data = torch.from_numpy(img).unsqueeze(0).float() / 255.0
