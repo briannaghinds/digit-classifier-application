@@ -3,6 +3,7 @@ from streamlit_drawable_canvas import st_canvas
 from PIL import Image
 import cv2
 import numpy as np
+
 import sqlite3
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -26,7 +27,7 @@ class WebsiteBuild():
         # print(img_tensor)
         
         
-        return prediction, confidence
+        return img_tensor, prediction, confidence
     
 
     def image_to_tensor(self, img):
@@ -71,12 +72,12 @@ class WebsiteBuild():
             img = canvas_result.image_data.astype(np.uint8)
             grey_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
-            st.text(canvas_result.image_data)
+            img_val, prediction, confidence = self.predict_digit(grey_img)
 
-
-            st.image(grey_img, caption="Processed Input", width=100)
-
-            prediction, confidence = self.predict_digit(grey_img)
+            col1, col2 = st.columns(2)
+            col1.image(grey_img, caption="Processed Input", width=100)
+            col2.write(f"Image turned into tensor: {img_val}")
+            
             st.write(f"PLACEHOLDER {prediction} AND {confidence}%")
 
             # add the img, prediction, confidence into a dataset
