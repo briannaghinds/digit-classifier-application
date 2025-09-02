@@ -19,31 +19,21 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-# from model.mnist_model import MNIST_CNN
+from model.mnist_model import MNIST_CNN
+from utilities import train_model, test_model
 
-# MNIST class
-class MNIST_CNN(nn.Module):
-    def __init__(self):
-        super(MNIST_CNN, self).__init__()
+# global variables
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        # define input, hidden, output
-        self.conv1 = nn.Conv2d(1, 10, kernel_size=5)  # 1 channel in, 10 out
-        self.conv2 = nn.Conv2d(10, 20, kernel_size=5)  # 10 channels in, 20 out
-        self.conv2_dropout = nn.Dropout2d()  # dropout layer is a regualarization layer (randomly deactivates certain network nodes)
-        self.fcl1 = nn.Linear(320, 50)
-        self.fcl2 = nn.Linear(50, 10)
+@st.cache_resource
+def load_model():
+    # load the model
+    model = MNIST_CNN().to(DEVICE)
+    print(model)
+    model.load_state_dict(torch.load("./model/MNIST_CNN_model.pth"))
+    model.eval()
 
-    def forward(self, x):
-        x = F.relu(F.max_pool2d(self.conv1(x), 2))
-        x = F.relu(F.max_pool2d(self.conv2_dropout(self.conv2(x)), 2))
-
-        # flatten data
-        x = x.view(-1, 320)
-        x = F.relu(self.fcl1(x))
-        x = F.dropout(x, training=self.training)
-        x = self.fcl2(x)
-
-        return x
+    return model
 
 
 # first make the drawing website then add functionalities, then make it modular (with classes and stuff)
@@ -51,6 +41,7 @@ class WebsiteBuild():
     # build website from top down
     def __init__(self):
         st.set_page_config("MNIST Classifier", layout="centered")
+        self.model = load_model()
 
 
     def image_to_tensor(self, img):
@@ -59,27 +50,21 @@ class WebsiteBuild():
         # img = 255 - img  # invert the colors
 
         # turn to a tensor
-        data = torch.from_numpy(final_img).unsqueeze(0).float() / 255.0
+        data = torch.from_numpy(final_img).unsqueeze(0).unsqueeze(0).float() / 255.0   # batch, channel, height, width (1, 1, 28, 28)
         # print(data.min().item(), data.max().item())
 
-        data = torch.reshape(data, (1, 28, 28))
-
-        # print("TENSOR SHAPE:" , data.shape)
+        # data = torch.reshape(data, (1, 28, 28))
+        print(data.shape)
         
         return data
     
 
     def predict_digit(self, img_array):
         img_tensor = self.image_to_tensor(img_array)
-        print(img_tensor.shape)
-
-        # call the PyTorch model and run the predict method
-        model = MNIST_CNN()
-        model.load_state_dict(torch.load("./model/MNIST_CNN_model.pth", map_location="cpu"))
-        model.eval()       
+        print(img_tensor.shape)   
 
         # prediction
-        output = model(img_tensor) 
+        output = self.model(img_tensor) 
         prediction = output.argmax(dim=1, keepdim=True).item()
 
         # confidence score
@@ -112,11 +97,14 @@ class WebsiteBuild():
         clear_btn = st.button("Clear")
 
         # TODO: clear button functionality
+        if clear_btn:
+            print("BUTTON PRESSED")
 
         # convert the canvas into an image for the model
         if predict_btn and canvas_result.image_data is not None:
             img = canvas_result.image_data.astype(np.uint8)
             grey_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
             img_val, prediction, confidence = self.predict_digit(grey_img)
 
             col1, col2 = st.columns(2)

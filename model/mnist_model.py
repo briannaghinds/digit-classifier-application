@@ -5,15 +5,15 @@ import torch
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
+# import torch.optim as optim
 
-# other data libraries
-import os
-import matplotlib.pyplot as plt
-import cv2
+# # other data libraries
+# import os
+# import matplotlib.pyplot as plt
+# import cv2
 
 # global variables
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # define the model architecture
 class MNIST_CNN(nn.Module):
@@ -32,41 +32,41 @@ class MNIST_CNN(nn.Module):
         x = F.relu(F.max_pool2d(self.conv2_dropout(self.conv2(x)), 2))
 
         # flatten data
-        x = x.view(x.size(0), -1)
+        x = x.view(-1, 320)
         x = F.relu(self.fcl1(x))
         x = F.dropout(x, training=self.training)
         x = self.fcl2(x)
 
         return x
     
-    # def load_data(self):
-    #     # # check if data/MNIST/raw folder exists
-    #     # directory_exists = os.path.isdir("./data/MNIST/raw")
-    #     # print(directory_exists)
+    def load_data(self):
+        # # check if data/MNIST/raw folder exists
+        # directory_exists = os.path.isdir("./data/MNIST/raw")
+        # print(directory_exists)
 
-    #     # if not directory_exists:
-    #     # load the data
-    #     train_data = datasets.MNIST(
-    #         root="data",
-    #         train=True,
-    #         transform=ToTensor(),
-    #         download=True
-    #     )
+        # if not directory_exists:
+        # load the data
+        train_data = datasets.MNIST(
+            root="data",
+            train=True,
+            transform=ToTensor(),
+            download=True
+        )
 
-    #     test_data = datasets.MNIST(
-    #         root="data",
-    #         train=False,
-    #         transform=ToTensor(),
-    #         download=True
-    #     )
+        test_data = datasets.MNIST(
+            root="data",
+            train=False,
+            transform=ToTensor(),
+            download=True
+        )
 
-    #     # load the data into a DataLoader, turn into batches and shuffle
-    #     loaders = {
-    #         "train": DataLoader(train_data, batch_size=100, shuffle=True, num_workers=1),
-    #         "test": DataLoader(test_data, batch_size=100, shuffle=True, num_workers=1)
-    #     }
+        # load the data into a DataLoader, turn into batches and shuffle
+        loaders = {
+            "train": DataLoader(train_data, batch_size=100, shuffle=True, num_workers=1),
+            "test": DataLoader(test_data, batch_size=100, shuffle=True, num_workers=1)
+        }
 
-    #     return loaders
+        return loaders
     #     # else:
     #     #     return f"DATA ALREADY EXISTS"
 
