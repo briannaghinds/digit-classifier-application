@@ -128,7 +128,7 @@ class WebsiteBuild():
             # st.session_state.image_id_counter += 1
 
             # add the img, prediction, confidence into a dataset
-            with open("./data/mnist.csv", "a+", newline="\n") as model_data:
+            with open("./data/mnist.csv", "a", newline="\n") as model_data:
                 mnist_data = csv.writer(model_data, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
                 mnist_data.writerow([img_path, prediction, confidence, False])
 

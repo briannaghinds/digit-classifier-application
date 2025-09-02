@@ -2,9 +2,17 @@ import streamlit as st
 import pandas as pd
 from model.mnist_model import MNIST_CNN
 from utilities import train_model, test_model
+import os
+from os import listdir
 
 # define image ID as state session variable
+# initialize image counter
+# if "image_id_counter" not in st.session_state:
+#     st.session_state.image_id_counter = 0
 
+if "visibility" not in st.session_state:
+    st.session_state.visibility = "visible"
+    st.session_state.disabled = False
 
 class MNIST_Training():
     def __init__(self):
@@ -18,18 +26,25 @@ class MNIST_Training():
         - display the model's accuracy for it
         - have buttons where if the label is wrong correct it
         """
-        if "visibility" not in st.session_state:
-            st.session_state.visibility = "visible"
-            st.session_state.disabled = False
-
         st.title("MNIST Model Trainer")
         st.write("Train the model!")
+
+        # iterate through image folder
+        folder_dir = "./images"
+        for image in os.listdir(folder_dir):
+            if image.endswith(".png"):
+                print(image)
+                st.image(f"./images/{image}")
         # st.image("", caption="")
-        st.write("IMAGE HERE")  # WILL DELETE LATER
+        # st.write("IMAGE HERE")  # WILL DELETE LATER
+
+        # pull the rest of the data given the image path
+        data = self.upload_mnist()
+        row = data.loc[data["img_path"] == f"./images/{image}"]
 
         col1, col2 = st.columns(2)
-        col1.write(f"Model's Guess: PREDICTION")
-        col2.write(f"Model's Confidence XX%")
+        col1.write(f"Model's Guess: {row['prediction'][0]}")
+        col2.write(f"Model's Confidence {row['confidence'][0]*100:.2f}%")
 
         st.write("Was the model wrong or correct in this instance?")
         col1_2, col2_2 = st.columns(2)
@@ -54,7 +69,7 @@ class MNIST_Training():
 
         st.title("Updated MNIST Dataset")
         st.write("Displayed is a data editor where you can see the full DataFrame object and edit any labels if need be.")
-        data = self.upload_mnist()
+        # data = self.upload_mnist()
         edited = st.data_editor(data, width="stretch", num_rows="dynamic")
 
 
