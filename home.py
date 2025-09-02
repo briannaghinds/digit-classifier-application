@@ -132,7 +132,7 @@ class WebsiteBuild():
             timestamp = datetime.now().strftime("%m/%d/%Y")
             with open("./data/mnist.csv", "a", newline="\n") as model_data:
                 mnist_data = csv.writer(model_data, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                mnist_data.writerow([timestamp,img_path, prediction, confidence, False])
+                mnist_data.writerow([timestamp,img_path, prediction, None, confidence, False])
 
 
 

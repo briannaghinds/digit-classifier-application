@@ -10,9 +10,13 @@ from os import listdir
 # if "image_id_counter" not in st.session_state:
 #     st.session_state.image_id_counter = 0
 
-if "visibility" not in st.session_state:
-    st.session_state.visibility = "visible"
-    st.session_state.disabled = False
+# if "visibility" not in st.session_state:
+#     st.session_state.visibility = "visible"
+#     st.session_state.disabled = False
+
+if "refresh_counter" not in st.session_state:
+    st.session_state.refresh_counter = 0
+
 
 class MNIST_Training():
     def __init__(self):
@@ -32,95 +36,51 @@ class MNIST_Training():
         # load the data
         data = self.upload_mnist()
 
-        # --- SESSION STATE ---
-        if "current_idx" not in st.session_state:
-            st.session_state.current_idx = 0
-        if "show_correction" not in st.session_state:
-            st.session_state.show_correction = False
+        # define all uncorrected images
+        uncorrected = data[data["corrected"] == False].reset_index(drop=True)
 
-        # iterate through image folder
-        folder_dir = "./images"
-        for image in os.listdir(folder_dir):
-            if not image.endswith(".png"):
-                continue
+        if len(uncorrected) == 0:
+            st.success("Either all images have been corrected or there are no images to correct.")
+            return
 
-            image_path = f"./images/{image}"
+        # display gallery
+        cols = st.columns(3)  # 3 images per row
+        for idx, row in uncorrected.iterrows():
+            with cols[idx % 3]:
+                image_path = row["img_path"]
+                prediction = row["prediction"]
+                confidence = row["confidence"]
 
-            # pull the rest of the data based on image path value
-            row = data.loc[data["img_path"] == image_path]
-            if row.empty:
-                continue  # skip if not in dataset
+                st.image(image_path, caption=f"Guess: {prediction}, Conf: {confidence*100:.2f}%", width=150)
 
-            prediction = row["prediction"].values[0]
-            confidence = row["confidence"].values[0]
-            corrected = row["corrected"].values[0]
-            print(corrected)
-
-            # show image
-            st.image(image_path, caption=f"Model Guess: {prediction}, Confidence: {confidence*100:.2f}")
-
-            if not corrected:
-                st.write("Looking at the image's caption, was the model wrong or correct in this instance?")
+                # correct/wrong buttons
                 col1, col2 = st.columns(2)
-
-                if col1.button(f"{image} is Correct", key=f"btn_correct_{image}"):
-                    st.success("Marked as correct")
+                if col1.button("Correct", key=f"correct_{image_path}"):
                     data.loc[data["img_path"] == image_path, "corrected"] = True
+                    data.loc[data["img_path"] == image_path, "true_label"] = prediction
+                    data.to_csv("./data/mnist.csv", index=False)
+                    st.session_state.refresh_counter += 1  # triggers rerun
 
-                if col2.button(f"{image} is Wrong", key=f"btn_wrong_{image}"):
+
+                if col2.button("Wrong", key=f"wrong_{image_path}"):
+                    st.session_state[f"show_input_{image_path}"] = True
+
+                # show number input for label correction
+                if st.session_state.get(f"show_input_{image_path}", False):
                     corrected_label = st.number_input(
-                        f"Correct label for {image}?",
+                        f"Correct label for {os.path.basename(image_path)}",
                         min_value=0,
                         max_value=9,
                         step=1,
-                        key=f"input_{image}"
+                        key=f"input_{image_path}"
                     )
-                    if st.button(f"Save {image}", key=f"save_{image}"):
-                        st.success(f"Saved correction → {corrected_label}")
-                        data.loc[data["img_path"] == image_path, "prediction"] = corrected_label
-                        data.loc[data["img_path"] == image_path, "corrected"] = True
 
-            else:
-                st.info(f"Already corrected: {corrected}")
-
-        # save the new updated data
-        if st.button("Save Dataset"):
-            data.to_csv("./mnist_corrected.csv", index=False)
+        if st.button("Save Corrections", key=f"save_{image_path}"):
+            data.loc[data["img_path"] == image_path, "true_label"] = corrected_label
+            data.loc[data["img_path"] == image_path, "corrected"] = True
+            data.to_csv("./data/mnist.csv", index=False)
+            st.session_state.refresh_counter += 1  # triggers rerun
             st.success("Dataset saved with all corrections!")
-
-
-        # # st.image("", caption="")
-        # # st.write("IMAGE HERE")  # WILL DELETE LATER
-
-        # # pull the rest of the data given the image path
-        # data = self.upload_mnist()
-        # row = data.loc[data["img_path"] == f"./images/{image}"]
-
-        # col1, col2 = st.columns(2)
-        # col1.write(f"Model's Guess: {row['prediction'][0]}")
-        # col2.write(f"Model's Confidence {row['confidence'][0]*100:.2f}%")
-
-
-        # correct = col1_2.button("Correct", key="disabled")
-        # wrong = col2_2.button("Wrong", key="visibility")
-
-        # if correct:
-        #     print("YAY THE MODEL GUESSED CORERECT")
-
-        # # if wrong:
-        # # st.write("What is the correct label?")
-        # corrected_label = st.number_input(
-        #     "What is the correct label?", 
-        #     0, 
-        #     9, 
-        #     label_visibility="visible",
-        #     disabled=st.session_state.disabled
-        # )
-        # st.write(corrected_label)
-        # print(f"CORRECTED LABEL: {corrected_label}")
-        # st.write(f"Image Label has been changed to: {corrected_label}")
-
-
 
         st.title("Updated MNIST Dataset")
         st.write("Displayed is a data editor where you can see the full DataFrame object and edit any labels if need be.")
