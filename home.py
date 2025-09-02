@@ -1,27 +1,15 @@
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
-from PIL import Image
 import cv2
 import numpy as np
 from datetime import datetime
-
-import sqlite3
-import pandas as pd
 import matplotlib.pyplot as plt
-import math
 import csv
-
 import torch
 import torch.nn.functional as F
-from torchvision import datasets
-from torchvision.transforms import ToTensor
 import torch
-from torch.utils.data import DataLoader
-import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
 from model.mnist_model import MNIST_CNN
-from utilities import train_model, test_model
 
 # global variables
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -52,13 +40,9 @@ class WebsiteBuild():
     def image_to_tensor(self, img):
         #resize image to MNIST format
         final_img = cv2.resize(img, (28,28), interpolation=cv2.INTER_AREA)
-        # img = 255 - img  # invert the colors
 
         # turn to a tensor
         data = torch.from_numpy(final_img).unsqueeze(0).unsqueeze(0).float() / 255.0   # batch, channel, height, width (1, 1, 28, 28)
-        # print(data.min().item(), data.max().item())
-
-        # data = torch.reshape(data, (1, 28, 28))
         print(data.shape)
         
         return data
@@ -115,7 +99,6 @@ class WebsiteBuild():
             col1, col2 = st.columns(2)
             col1.image(grey_img, caption="Processed Input", width=100)
             col2.write(f"Image turned into Tensor with size: {img_val.shape}")
-            # col2.write(f"Image turned into tensor: {img_val[0, :5, :5]}")
 
             st.write(f"Model Prediction: {prediction}")
             st.write(f"Model Confidence: {confidence*100:.2f}%")
@@ -124,7 +107,6 @@ class WebsiteBuild():
             arr_ = np.squeeze(img_val)
             plt.imshow(arr_)
             img_path = f"./images/image{st.session_state.image_id_counter}.png"
-            # img_path = f"./images/image0.png"
             plt.savefig(img_path)
             st.session_state.image_id_counter += 1
 
@@ -132,7 +114,7 @@ class WebsiteBuild():
             timestamp = datetime.now().strftime("%m/%d/%Y")
             with open("./data/mnist.csv", "a", newline="\n") as model_data:
                 mnist_data = csv.writer(model_data, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                mnist_data.writerow([timestamp,img_path, prediction, None, confidence, False])
+                mnist_data.writerow([timestamp,img_path, prediction, 0, confidence, False])
 
 
 

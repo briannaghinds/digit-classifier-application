@@ -1,26 +1,14 @@
 import streamlit as st
 import pandas as pd
-from model.mnist_model import MNIST_CNN
-from utilities import train_model, test_model
 import os
-from os import listdir
-
-# define image ID as state session variable
-# initialize image counter
-# if "image_id_counter" not in st.session_state:
-#     st.session_state.image_id_counter = 0
-
-# if "visibility" not in st.session_state:
-#     st.session_state.visibility = "visible"
-#     st.session_state.disabled = False
 
 if "refresh_counter" not in st.session_state:
     st.session_state.refresh_counter = 0
 
 
-class MNIST_Training():
+class MNIST_Data_Labeling():
     def __init__(self):
-        st.set_page_config("MNIST Training", layout="centered")
+        st.set_page_config("MNIST Data Labeling", layout="centered")
 
     def page_build(self):
         """
@@ -30,8 +18,8 @@ class MNIST_Training():
         - display the model's accuracy for it
         - have buttons where if the label is wrong correct it
         """
-        st.title("MNIST Model Trainer")
-        st.write("Train the model!")
+        st.title("MNIST Data Labeling")
+        st.write("Correct the data to improve the model!")
 
         # load the data
         data = self.upload_mnist()
@@ -98,5 +86,5 @@ class MNIST_Training():
 
 ## MAIN
 if __name__ == "__main__":
-    train_page = MNIST_Training()
+    train_page = MNIST_Data_Labeling()
     train_page.page_build()
