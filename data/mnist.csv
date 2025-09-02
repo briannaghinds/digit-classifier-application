@@ -1,4 +1,2 @@
-img_path,prediction,confidence,corrected
-./images/image0.png,3,0.9984092116355896,False
-./images/image0.png,7,0.5125217437744141,False
-./images/image0.png,3,0.9965412020683289,False
+timestamp,img_path,prediction,confidence,corrected
+

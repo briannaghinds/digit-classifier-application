@@ -3,6 +3,7 @@ from streamlit_drawable_canvas import st_canvas
 from PIL import Image
 import cv2
 import numpy as np
+from datetime import datetime
 
 import sqlite3
 import pandas as pd
@@ -35,9 +36,9 @@ def load_model():
 
     return model
 
-# # initialize image counter
-# if "image_id_counter" not in st.session_state:
-#     st.session_state.image_id_counter = 0
+# initialize image counter
+if "image_id_counter" not in st.session_state:
+    st.session_state.image_id_counter = 0
 
 
 # first make the drawing website then add functionalities, then make it modular (with classes and stuff)
@@ -122,15 +123,16 @@ class WebsiteBuild():
             # turn tensor into image:
             arr_ = np.squeeze(img_val)
             plt.imshow(arr_)
-            # img_path = f"./images/image{st.session_state.image_id_counter}.png"
-            img_path = f"./images/image0.png"
+            img_path = f"./images/image{st.session_state.image_id_counter}.png"
+            # img_path = f"./images/image0.png"
             plt.savefig(img_path)
-            # st.session_state.image_id_counter += 1
+            st.session_state.image_id_counter += 1
 
             # add the img, prediction, confidence into a dataset
+            timestamp = datetime.now().strftime("%m/%d/%Y")
             with open("./data/mnist.csv", "a", newline="\n") as model_data:
                 mnist_data = csv.writer(model_data, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                mnist_data.writerow([img_path, prediction, confidence, False])
+                mnist_data.writerow([timestamp,img_path, prediction, confidence, False])
 
 
 
