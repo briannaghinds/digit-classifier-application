@@ -1,6 +1,6 @@
 import streamlit as st
 from model.mnist_model import MNIST_CNN
-from utilities import train_model
+from model.utilities import train_model
 
 class MNIST_Trainer():
     def __init__(self):

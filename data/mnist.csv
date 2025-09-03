@@ -1,5 +1,5 @@
 timestamp,img_path,prediction,true_label,confidence,corrected
-09/02/2025,./images/image0.png,7,3,0.3929604291915893,True
-09/02/2025,./images/image1.png,8,8,0.3442959487438202,True
-09/02/2025,./images/image2.png,2,2,0.6810005903244019,True
-09/02/2025,./images/image3.png,4,1,0.2554212808609009,True
+09/03/2025,./images/image0.png,2,2,0.692110538482666,True
+09/03/2025,./images/image1.png,7,8,0.4977414011955261,True
+09/03/2025,./images/image2.png,1,1,0.9002078175544739,True
+09/03/2025,./images/image3.png,4,4,0.328057199716568,True

@@ -8,6 +8,7 @@ import csv
 import torch
 import torch.nn.functional as F
 from model.mnist_model import MNIST_CNN
+from PIL import Image
 
 # global variables
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -102,17 +103,19 @@ class WebsiteBuild():
             st.write(f"Model Confidence: {confidence*100:.2f}%")
 
             # turn tensor into image:
-            arr_ = np.squeeze(img_val)
-            plt.imshow(arr_)
+            # arr_ = np.squeeze(img_val)
+            # plt.imshow(arr_)
+            im = Image.fromarray(img)
             img_path = f"./images/image{st.session_state.image_id_counter}.png"
-            plt.savefig(img_path)
+            # img_path = "./images/image0.png"
+            im.save(img_path)
             st.session_state.image_id_counter += 1
 
             # add the img, prediction, confidence into a dataset
             timestamp = datetime.now().strftime("%m/%d/%Y")
             with open("./data/mnist.csv", "a", newline="\n") as model_data:
                 mnist_data = csv.writer(model_data, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
-                mnist_data.writerow([timestamp,img_path, prediction, 0, confidence, False])
+                mnist_data.writerow([timestamp, img_path, prediction, 0, confidence, False])
 
 
 
