@@ -3,7 +3,9 @@ This application is a Python project where an MNIST digit recognizer model is pr
 1) The `home` page is where the user will write their digits and call the model to predict.
 2) The `data labeling` page is where the user will go through the compiled digits written and make sure they are correctly labeled, this is the Human-In-The-Loop (HITL) part of this application.
 3) The `model training` page is where after a certain amount of corrected digit labels (starting at 500) the user will be able to retrain the model to improve the overall accuracy of the model.
-4) The `dashboard` page is where the data analytics is displayed.   
+4) The `dashboard` page is where the data analytics is displayed.  
+
+This project is actually aiding me in my capstone business Data Analytics class where I am asking myself a question, analyze data, and present my findings. The question I am asking is **What does model improvement look over time?** where I am not only building the data *to* retrain the model, but also looking at growth and improvment of the model per month.
 
 ### Libraries Used
 These are the libraries defined with in the `requirements.txt` file.
@@ -14,8 +16,21 @@ streamlit_drawable_canvas
 cv2
 datetime
 matplotlib
+csv
+torch
+torchvision
 ```
 
-
 ## PERSONAL NOTES:
-- 
+- for the dashboard include graphs like:
+*I want to have a compare/contrast display that has any digit (i.e. 3) and shows the month 1-month 3 difference of the low to high accuracy span.*
+    - NONTECHNICAL
+        - histogram/KDE plot grouped by months
+        - digit accuracy heatmap (true label vs predicted label)
+        - accuracy by digit pie chart
+        - cumulative corrections over time(?)
+        - confidence distribution per month
+    - TECHNICAL
+        - clustering graph
+        - confidence distribution per digit
+        - time series accuracy growth
