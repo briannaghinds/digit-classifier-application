@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 import csv
 import torch
 import torch.nn.functional as F
-import torch
-import torch.nn.functional as F
 from model.mnist_model import MNIST_CNN
 
 # global variables
