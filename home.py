@@ -2,6 +2,8 @@ import streamlit as st
 from streamlit_drawable_canvas import st_canvas
 import cv2
 import numpy as np
+import pandas as pd
+import os
 from datetime import datetime
 import matplotlib.pyplot as plt
 import csv
@@ -23,9 +25,18 @@ def load_model():
 
     return model
 
-# initialize image counter
-if "image_id_counter" not in st.session_state:
-    st.session_state.image_id_counter = 0
+
+def get_next_id():
+    csv_path = "./data/mnist.csv"
+    if os.path.exists(csv_path):
+        df = pd.read_csv(csv_path)
+        return len(df)   # number of rows = next ID
+    else:
+        return 0  # if CSV doesn’t exist yet
+
+# # initialize image counter
+# if "image_id_counter" not in st.session_state:
+#     st.session_state.image_id_counter = 0
 
 
 # first make the drawing website then add functionalities, then make it modular (with classes and stuff)
@@ -102,14 +113,17 @@ class WebsiteBuild():
             st.write(f"Model Prediction: {prediction}")
             st.write(f"Model Confidence: {confidence*100:.2f}%")
 
+            # row count to determine ID
+            next_id = get_next_id()
+
             # turn tensor into image:
             # arr_ = np.squeeze(img_val)
             # plt.imshow(arr_)
             im = Image.fromarray(img)
-            img_path = f"./images/image{st.session_state.image_id_counter}.png"
+            img_path = f"./images/image{next_id}.png"
             # img_path = "./images/image0.png"
             im.save(img_path)
-            st.session_state.image_id_counter += 1
+            # st.session_state.image_id_counter += 1
 
             # add the img, prediction, confidence into a dataset
             timestamp = datetime.now().strftime("%m/%d/%Y")
@@ -117,6 +131,7 @@ class WebsiteBuild():
                 mnist_data = csv.writer(model_data, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL)
                 mnist_data.writerow([timestamp, img_path, prediction, 0, confidence, False])
 
+            st.success(f"Saved -> {img_path}")
 
 
 

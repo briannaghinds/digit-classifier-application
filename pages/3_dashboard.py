@@ -5,7 +5,8 @@ class MNIST_Dashboard():
         st.set_page_config("MNIST Dashboard", layout="centered")
 
     def build_dashboard(self):
-        st.write("BLAK BLAH BLAH")
+        st.title("MNIST Analyst Dashboard")
+        st.write("This projects purpose is to see the ")
 
 
 ## MAIN
