@@ -8,11 +8,10 @@ class MNIST_Dashboard():
         st.title("MNIST Analyst Dashboard")
         st.write("This projects purpose is to visualize the growth of a AI model. To begin the model was already trained on a widely used handwritten digit dataset. The gathering of digits will aid in making the model more accuracte in indentifying messy digit writing.")
 
-        # GRAPHS HERE
-        # NON TECHNICAL GRAPHS
+        # the graphs will need to be built with R so I can add the images here
+        st.header("Non-Technical Graphs")
 
-
-        # TECHNICAL GRAPHS
+        st.header("Technical Graphs")
 
 
 ## MAIN

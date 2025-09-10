@@ -10,6 +10,9 @@ class MNIST_Trainer():
         st.title("MNIST Model Retraining")
         st.write("Here you can retrain the model once the dataset reaches a certain amount. Over time the model will learn the different ways each digit can be written and become more accurate.")
 
+    def model_retrain(self):
+        # get the mnist.csv file, shuffle the data and then train the model
+        pass
 
 # MAIN
 if __name__ == "__main__":

@@ -63,12 +63,12 @@ class MNIST_Data_Labeling():
                         key=f"input_{image_path}"
                     )
 
-        if st.button("Save Corrections", key=f"save_{image_path}"):
-            data.loc[data["img_path"] == image_path, "true_label"] = corrected_label
-            data.loc[data["img_path"] == image_path, "corrected"] = True
-            data.to_csv("./data/mnist.csv", index=False)
-            st.session_state.refresh_counter += 1  # triggers rerun
-            st.success("Dataset saved with all corrections!")
+                    if st.button("Save", key=f"save_{image_path}"):
+                        data.loc[data["img_path"] == image_path, "true_label"] = corrected_label
+                        data.loc[data["img_path"] == image_path, "corrected"] = True
+                        data.to_csv("./data/mnist.csv", index=False)
+                        st.session_state.refresh_counter += 1  # triggers rerun
+                        st.success(f"Saved correction for {os.path.basename(image_path)}")
 
         st.title("Updated MNIST Dataset")
         st.write("Displayed is a data editor where you can see the full DataFrame object and edit any labels if need be.")
