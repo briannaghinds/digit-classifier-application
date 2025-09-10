@@ -34,3 +34,15 @@ torchvision
         - clustering graph
         - confidence distribution per digit
         - time series accuracy growth
+- the graphs have to be in R so I can either import the graphs via R or I can call this library:
+
+```python
+import rpy2.robjects as ro
+ro.r('''
+    library(ggplot2)
+    df <- data.frame(x=rnorm(100), y=rnorm(100))
+    p <- ggplot(df, aes(x, y)) + geom_point()
+    ggsave("scatter.png", p)
+''')
+st.image("scatter.png")
+```
