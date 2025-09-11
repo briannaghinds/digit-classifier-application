@@ -33,3 +33,13 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 09/10/2025,./images/image31.png,0,0,0.8596368432044983,True
 09/10/2025,./images/image32.png,9,0,0.8357831835746765,True
 09/10/2025,./images/image33.png,0,0,0.8307057023048401,True
+09/11/2025,./images/image34.png,1,1,0.9307867884635924,True
+09/11/2025,./images/image35.png,2,2,0.749459981918335,True
+09/11/2025,./images/image36.png,3,3,0.3864153325557709,True
+09/11/2025,./images/image37.png,7,4,0.668804407119751,True
+09/11/2025,./images/image38.png,7,5,0.6186309456825256,True
+09/11/2025,./images/image39.png,6,6,0.9925966262817384,True
+09/11/2025,./images/image40.png,7,7,0.9451987743377686,True
+09/11/2025,./images/image41.png,8,8,0.5449720025062561,True
+09/11/2025,./images/image42.png,9,9,0.5366182327270508,True
+09/11/2025,./images/image43.png,5,0,0.7185972332954407,True
