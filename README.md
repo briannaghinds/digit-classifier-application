@@ -5,7 +5,7 @@ This application is a Python project where an MNIST digit recognizer model is pr
 3) The `model training` page is where after a certain amount of corrected digit labels (starting at 500) the user will be able to retrain the model to improve the overall accuracy of the model.
 4) The `dashboard` page is where the data analytics is displayed.  
 
-This project is actually aiding me in my capstone business Data Analytics class where I am asking myself a question, analyze data, and present my findings. The question I am asking is **What does model improvement look over time?** where I am not only building the data *to* retrain the model, but also looking at growth and improvment of the model per month.
+This project is actually aiding me in my capstone Data Analytics class where I am asking myself a question, analyzing data, and presenting my findings. The question I am asking is **What does model improvement look over time?** In this project I am not only building the data *to* retrain the model, but also looking at growth and improvment of the model per month.
 
 ### Libraries Used
 These are the libraries defined with in the `requirements.txt` file.
@@ -20,6 +20,7 @@ csv
 torch
 torchvision
 ```
+FORMAT LATER
 
 ## PERSONAL NOTES:
 - for the dashboard include graphs like:
