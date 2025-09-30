@@ -20,7 +20,7 @@ csv
 torch
 torchvision
 ```
-FORMAT LATER
+FORMAT LATER (for my BUSA 4360)
 
 ## PERSONAL NOTES:
 - for the dashboard include graphs like:
