@@ -36,6 +36,7 @@ FORMAT LATER
         - confidence distribution per digit
         - time series accuracy growth
 - the graphs have to be in R so I can either import the graphs via R or I can call this library:
+- I think it would be better to just use the csv file in RStudio and output the images there and upload it from here
 
 ```python
 import rpy2.robjects as ro
