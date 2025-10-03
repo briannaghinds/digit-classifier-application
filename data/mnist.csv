@@ -142,3 +142,5 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 09/26/2025,./images/image140.png,2,2,0.9609938859939576,True
 09/26/2025,./images/image141.png,3,3,0.3929093480110168,True
 09/26/2025,./images/image142.png,3,3,0.986303985118866,True
+10/02/2025,./images/image143.png,8,8,0.9272629022598268,True
+10/02/2025,./images/image144.png,7,3,0.5052595138549805,True
