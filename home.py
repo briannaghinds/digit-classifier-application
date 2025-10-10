@@ -14,6 +14,7 @@ from PIL import Image
 
 # global variables
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+SIZE = 280
 
 @st.cache_resource
 def load_model():
@@ -86,8 +87,8 @@ class WebsiteBuild():
             stroke_width=10,
             stroke_color="white",
             background_color="black",
-            width=280,
-            height=280,
+            width=SIZE,
+            height=SIZE,
             drawing_mode="freedraw",
             key="canvas"   
         )
@@ -101,12 +102,15 @@ class WebsiteBuild():
 
         # convert the canvas into an image for the model
         if predict_btn and canvas_result.image_data is not None:
+            # show the model's input in image format
             img = canvas_result.image_data.astype(np.uint8)
             grey_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
 
             img_val, prediction, confidence = self.predict_digit(grey_img)
 
             col1, col2 = st.columns(2)
+
+
             col1.image(grey_img, caption="Processed Input", width=100)
             col2.write(f"Image turned into Tensor with size: {img_val.shape}")
 

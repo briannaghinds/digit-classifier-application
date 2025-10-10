@@ -1,5 +1,7 @@
 import torch
 
+SEPT_ACCURACY = 98.79
+
 def train_model(model, training_data, epochs, optimizer, loss_fuc, device):
     for epoch in range(epochs):
         model.train()
@@ -31,4 +33,9 @@ def test_model(model, testing_data, loss_fuc, device):
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(testing_data)
+
+    # accuracy measurement
+    accuracy = (100. * correct) / (len(testing_data.dataset))
     print(f"\nTest Set: Average Loss: {test_loss:.4f}, Accuracy: {correct}/{len(testing_data.dataset)} ({100. * correct / len(testing_data.dataset):.0f}%\n)")
+
+    return accuracy
