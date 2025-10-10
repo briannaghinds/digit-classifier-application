@@ -14,6 +14,9 @@ class MNIST_Dashboard():
         st.header("Technical Graphs")
 
 
+        st.header("NOTES:")
+        st.write("ACCURACY AT SEPT: Test Set: Average Loss: 0.0398, Accuracy: 9879/10000 (98.79%). At this point no retraining has been done.")
+
 ## MAIN
 if __name__ == "__main__":
     db = MNIST_Dashboard()
