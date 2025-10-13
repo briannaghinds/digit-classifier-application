@@ -11,11 +11,15 @@ import torch.nn.functional as F
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.model_selection import train_test_split
-import time
+from torchvision import datasets, transforms
+from torch.utils.data import ConcatDataset
+
 
 
 # global variables
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+EPOCHS = 5
+BATCH_SIZE = 100
 
 @st.cache_resource
 def load_model():
@@ -26,6 +30,20 @@ def load_model():
     model.eval()
 
     return model
+
+def load_official_mnist():
+    transform = transforms.Compose([
+        transforms.Resize((28, 28)),
+        transforms.ToTensor()
+    ])
+    mnist_train = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+    mnist_test = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
+    return mnist_train, mnist_test
+
+def combine_datasets(custom_train, custom_test, mnist_train, mnist_test):
+    combined_train = ConcatDataset([custom_train, mnist_train])
+    combined_test = ConcatDataset([custom_test, mnist_test])
+    return combined_train, combined_test
 
 # MNIST data class
 class MNISTCustomDataset(Dataset):
@@ -77,36 +95,26 @@ class MNIST_Trainer():
     def model_retrain(self):
         # get the mnist.csv file, shuffle the data and then retrain the model
         mnist = pd.read_csv("./data/mnist.csv")
-        train_data, test_data = self.mnist_data_refactor(mnist)
+        custom_train, custom_test = self.mnist_data_refactor(mnist)
         
         # make sure there is data
-        if train_data is None:
+        if custom_train is None:
             return 
+        
+        # load official MNSIt and combine custom and MNIST
+        mnist_train, mnist_test = load_official_mnist()
+        train_data, test_data = combine_datasets(custom_train, custom_test, mnist_train, mnist_test)
 
         # pass the data through train and test
         loaders = {
-            "train": DataLoader(train_data, batch_size=100, shuffle=True, num_workers=0),
-            "test": DataLoader(test_data, batch_size=100, shuffle=True, num_workers=0)
+            "train": DataLoader(train_data, batch_size=BATCH_SIZE, shuffle=True, num_workers=0),
+            "test": DataLoader(test_data, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
         }
         loss_func = nn.CrossEntropyLoss()
         optimizer = optim.Adam(self.model.parameters(), lr=0.001)
 
         # retrain
-        # EPOCHS = 5
-        # for epoch in range(EPOCHS):
-        #     # --- PROGRESS BAR UPDATE ---
-        #     progress_percent = int((epoch / EPOCHS) * 100)
-        #     progress_bar.progress(progress_percent, text=f"Training epoch {epoch+1}/{EPOCHS}...")
-
-        #     # train model
-        #     train_model(self.model, loaders["train"], 1, optimizer, loss_func, DEVICE)
-        #     time.sleep(0.5)  # purely cosmetic to simulate work for UI smoothness
-
-        # # Done training
-        # progress_bar.progress(100, text="Training complete!")
-        # time.sleep(1)
-        # progress_bar.empty()
-        train_model(self.model, loaders["train"], 15, optimizer, loss_func, DEVICE)
+        train_model(self.model, loaders["train"], EPOCHS, optimizer, loss_func, DEVICE)
         st.success("Model finished retraining.")
 
         # get the accuracy
@@ -115,8 +123,8 @@ class MNIST_Trainer():
         # if the accuracy is greater than the month before then replace 
         st.write(f"RETRAINING ACCURACY: {accuracy_val:.2f}")
         if accuracy_val > SEPT_ACCURACY:
-            path = f".model/{accuracy_val:.2f}_MNIST_CNN_model.pth"
-            # torch.save(self.model.state_dict(), path)
+            path = f"./model/{accuracy_val:.2f}_MNIST_CNN_model.pth"
+            torch.save(self.model.state_dict(), path)
             st.success(f"Updated model saved to path: {path}")
         else:
             st.info("New model did not improve from before. Did not save.")
@@ -128,8 +136,9 @@ class MNIST_Trainer():
 
         # retrain button will call the model_retrain() method
         if st.button("Retrain MNIST Model"):
-            # call retrain function
-            self.model_retrain()
+            with st.spinner("Waiting for model to finish."):
+                # call retrain function
+                self.model_retrain()
 
 
 # MAIN
