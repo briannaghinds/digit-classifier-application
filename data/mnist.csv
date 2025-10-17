@@ -44,7 +44,7 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 09/11/2025,./images/image42.png,9,9,0.5366182327270508,True
 09/11/2025,./images/image43.png,5,0,0.7185972332954407,True
 09/17/2025,./images/image44.png,1,1,0.8558294177055359,True
-09/17/2025,./images/image45.png,4,4,0.3576721549034118,True
+09/17/2025,./images/image45.png,4,1,0.3576721549034118,True
 09/17/2025,./images/image46.png,1,1,0.4837288558483124,True
 09/17/2025,./images/image47.png,1,1,0.8986831903457642,True
 09/17/2025,./images/image48.png,2,1,0.8403781652450562,True
@@ -72,7 +72,7 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 09/17/2025,./images/image70.png,3,3,0.9979373216629028,True
 09/17/2025,./images/image71.png,3,3,0.9999903440475464,True
 09/17/2025,./images/image72.png,3,3,0.9985634684562684,True
-09/22/2025,./images/image73.png,7,7,0.2530370652675628,True
+09/22/2025,./images/image73.png,7,4,0.2530370652675628,True
 09/22/2025,./images/image74.png,4,4,0.3484255373477936,True
 09/22/2025,./images/image75.png,4,4,0.6861863136291504,True
 09/22/2025,./images/image76.png,7,4,0.4728047549724579,True
@@ -189,7 +189,7 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 10/08/2025,./images/image187.png,5,5,0.9994121789932252,True
 10/08/2025,./images/image188.png,5,5,0.9833111763000488,True
 10/08/2025,./images/image189.png,5,5,0.9996774196624756,True
-10/08/2025,./images/image190.png,5,5,0.5019523501396179,True
+10/08/2025,./images/image190.png,5,6,0.5019523501396179,True
 10/08/2025,./images/image191.png,6,6,0.6413593292236328,True
 10/08/2025,./images/image192.png,6,6,0.9105185866355896,True
 10/08/2025,./images/image193.png,6,6,0.6947264075279236,True
@@ -230,7 +230,7 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 10/09/2025,./images/image228.png,0,0,0.9997522234916688,True
 10/09/2025,./images/image229.png,1,1,0.9262043833732604,True
 10/09/2025,./images/image230.png,2,2,0.9944472312927246,True
-10/09/2025,./images/image231.png,2,2,0.4407745599746704,True
+10/09/2025,./images/image231.png,2,3,0.4407745599746704,True
 10/09/2025,./images/image232.png,0,4,0.8777908086776733,True
 10/09/2025,./images/image233.png,3,5,0.3272612392902374,True
 10/09/2025,./images/image234.png,6,6,0.3294895887374878,True
@@ -368,7 +368,7 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 10/13/2025,./images/image366.png,3,3,0.785993218421936,True
 10/13/2025,./images/image367.png,4,4,0.7211368083953857,True
 10/13/2025,./images/image368.png,5,5,0.9764553904533386,True
-10/13/2025,./images/image369.png,8,8,0.8501492738723755,True
+10/13/2025,./images/image369.png,8,6,0.8501492738723755,True
 10/13/2025,./images/image370.png,7,7,0.9130491614341736,True
 10/13/2025,./images/image371.png,8,8,0.9927175045013428,True
 10/13/2025,./images/image372.png,9,9,0.9935272336006165,True
