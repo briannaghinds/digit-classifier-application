@@ -70,9 +70,10 @@ class MNIST_Data_Labeling():
                         st.session_state.refresh_counter += 1  # triggers rerun
                         st.success(f"Saved correction for {os.path.basename(image_path)}")
 
-        st.title("Updated MNIST Dataset")
-        st.write("Displayed is a data editor where you can see the full DataFrame object and edit any labels if need be.")
-        st.data_editor(data, width="stretch", num_rows="dynamic")
+        # FIGURE OUT SOME WAY TO HAVE THIS WERE IT WILL ALSO UPDATE THE CSV DATA (or not just to have some data security)
+        # st.title("Updated MNIST Dataset")
+        # st.write("Displayed is a data editor where you can see the full DataFrame object and edit any labels if need be.")
+        # st.data_editor(data, width="stretch", num_rows="dynamic")
 
 
     def upload_mnist(self):
