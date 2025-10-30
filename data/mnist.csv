@@ -609,3 +609,13 @@ timestamp,img_path,prediction,true_label,confidence,corrected
 10/17/2025,./images/image607.png,8,8,0.6679439544677734,True
 10/17/2025,./images/image608.png,4,9,0.771586537361145,True
 10/17/2025,./images/image609.png,0,0,0.8273583650588989,True
+10/30/2025,./images/image610.png,9,0,0.5729108452796936,True
+10/30/2025,./images/image611.png,1,1,0.7450719475746155,True
+10/30/2025,./images/image612.png,2,2,0.974511444568634,True
+10/30/2025,./images/image613.png,3,3,0.9795966148376464,True
+10/30/2025,./images/image614.png,4,4,0.5799752473831177,True
+10/30/2025,./images/image615.png,3,5,0.668875515460968,True
+10/30/2025,./images/image616.png,6,6,0.7160853147506714,True
+10/30/2025,./images/image617.png,7,7,0.5072304606437683,True
+10/30/2025,./images/image618.png,8,8,0.9857630729675292,True
+10/30/2025,./images/image619.png,9,9,0.978305995464325,True
