@@ -36,6 +36,6 @@ def test_model(model, testing_data, loss_fuc, device):
 
     # accuracy measurement
     accuracy = (100. * correct) / (len(testing_data.dataset))
-    print(f"\nTest Set: Average Loss: {test_loss:.4f}, Accuracy: {correct}/{len(testing_data.dataset)} ({100. * correct / len(testing_data.dataset):.0f}%\n)")
+    print(f"\nTest Set: Average Loss: {test_loss:.4f}, Accuracy: {correct}/{len(testing_data.dataset)} ({100. * correct / len(testing_data.dataset):.2f}%\n)")
 
     return accuracy

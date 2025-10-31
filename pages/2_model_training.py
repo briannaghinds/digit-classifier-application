@@ -15,11 +15,10 @@ from torchvision import datasets, transforms
 from torch.utils.data import ConcatDataset
 
 
-
 # global variables
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-EPOCHS = 5
-BATCH_SIZE = 100
+EPOCHS = 9
+BATCH_SIZE = 150
 
 @st.cache_resource
 def load_model():
@@ -119,6 +118,7 @@ class MNIST_Trainer():
 
         # get the accuracy
         accuracy_val = test_model(self.model, loaders["test"], loss_func, DEVICE)
+        print(accuracy_val)
 
         # if the accuracy is greater than the month before then replace 
         st.write(f"RETRAINING ACCURACY: {accuracy_val:.2f}")
