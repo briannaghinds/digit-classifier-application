@@ -94,6 +94,7 @@ class MNIST_Trainer():
     def model_retrain(self):
         # get the mnist.csv file, shuffle the data and then retrain the model
         mnist = pd.read_csv("./data/mnist.csv")
+        st.write(f"Size of custom MNIST dataset: {mnist.shape}")
         custom_train, custom_test = self.mnist_data_refactor(mnist)
         
         # make sure there is data
