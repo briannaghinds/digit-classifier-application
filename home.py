@@ -21,7 +21,8 @@ def load_model():
     # load the model
     model = MNIST_CNN().to(DEVICE)
     print(model)
-    model.load_state_dict(torch.load("./model/MNIST_CNN_model.pth"))
+    # model.load_state_dict(torch.load("./model/MNIST_CNN_model.pth"))
+    model.load_state_dict(torch.load("./model/98.89_MNIST_CNN_model.pth"))
     model.eval()
 
     return model
