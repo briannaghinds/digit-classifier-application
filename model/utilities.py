@@ -1,6 +1,7 @@
 import torch
 
 SEPT_ACCURACY = 98.79
+OCT_ACCURACY = 98.89
 
 def train_model(model, training_data, epochs, optimizer, loss_fuc, device):
     for epoch in range(epochs):

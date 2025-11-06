@@ -3,7 +3,7 @@ from model.mnist_model import MNIST_CNN
 from torch.utils.data import Dataset
 from PIL import Image
 import numpy as np
-from model.utilities import train_model, test_model, SEPT_ACCURACY
+from model.utilities import train_model, test_model, SEPT_ACCURACY, OCT_ACCURACY
 import pandas as pd
 import torch
 from torch.utils.data import DataLoader
@@ -17,15 +17,15 @@ from torch.utils.data import ConcatDataset
 
 # global variables
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-EPOCHS = 9
-BATCH_SIZE = 150
+EPOCHS = 8
+BATCH_SIZE = 32
 
 @st.cache_resource
 def load_model():
     # load the model
     model = MNIST_CNN().to(DEVICE)
     print(model)
-    model.load_state_dict(torch.load("./model/MNIST_CNN_model.pth"))
+    model.load_state_dict(torch.load("./model/98.89_MNIST_CNN_model.pth"))
     model.eval()
 
     return model
@@ -123,7 +123,7 @@ class MNIST_Trainer():
 
         # if the accuracy is greater than the month before then replace 
         st.write(f"RETRAINING ACCURACY: {accuracy_val:.2f}")
-        if accuracy_val > SEPT_ACCURACY:
+        if accuracy_val > OCT_ACCURACY:
             path = f"./model/{accuracy_val:.2f}_MNIST_CNN_model.pth"
             torch.save(self.model.state_dict(), path)
             st.success(f"Updated model saved to path: {path}")
