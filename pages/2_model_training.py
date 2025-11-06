@@ -18,7 +18,7 @@ from torch.utils.data import ConcatDataset
 # global variables
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 EPOCHS = 8
-BATCH_SIZE = 32
+BATCH_SIZE = 50
 
 @st.cache_resource
 def load_model():
