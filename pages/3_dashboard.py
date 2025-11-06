@@ -16,6 +16,8 @@ class MNIST_Dashboard():
 
         st.header("NOTES:")
         st.write("ACCURACY AT SEPT: Test Set: Average Loss: 0.0398, Accuracy: 9879/10000 (98.79%). At this point no retraining has been done.")
+        st.write("I want to make a scatter plot of confident scores per month (or not because of the distribution graph)")
+        st.write("I can keep my overall digit confidence score and then I can do I per month to show guessing improvement")
 
 ## MAIN
 if __name__ == "__main__":
