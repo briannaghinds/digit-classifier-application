@@ -3,3 +3,4 @@ __pycache__/
 images/
 model/data/
 data/MNIST
+data/mnist_flattened_vectors.csv
